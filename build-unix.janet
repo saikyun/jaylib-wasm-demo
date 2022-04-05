@@ -3,6 +3,7 @@
 (def port "8000")
 
 (def preload-dir "resources")
+(def lib-dir (string preload-dir "/jpm_tree/lib"))
 
 ###########################################################################
 
@@ -47,9 +48,9 @@
   (printf "\n[preparing HTML5-aware libraylib.a]...")
   (let [old-dir (os/cwd)]
     (try
-      (os/cd "jaylib/raylib/src")
+      (os/cd "freja-jaylib/raylib/src")
       ([e]
-        (eprintf "<<failed to cd to jaylib directory>>")
+        (eprintf "<<failed to cd to freja-jaylib directory>>")
         (os/exit 1)))
     (try
       (os/execute ["make" "clean"] :px)
@@ -61,7 +62,7 @@
                    "CFLAGS=-gsource-map"
                    "PLATFORM=PLATFORM_WEB" "-B" "-e"] :px)
       ([e]
-        (eprintf "<<problem building libjaylib.a>>")
+        (eprintf "<<problem building libfreja-jaylib.a>>")
         (os/exit 1)))
     (try
       (os/cd old-dir)
@@ -69,14 +70,14 @@
         (eprintf "<<problem restoring current directory>>")
         (os/exit 1))))
   #
-  (printf "\n[preparing jaylib.janet shim]...")
+  (printf "\n[preparing freja-jaylib.janet shim]...")
   (try
     (os/execute ["janet"
-                 "make-jaylib-janet-shim.janet"
-                 "jaylib/src"
-                 (string preload-dir "/jaylib.janet")] :px)
+                 "make-freja-jaylib-janet-shim.janet"
+                 "freja-jaylib/src"
+                 (string lib-dir "/freja-jaylib.janet")] :px)
     ([e]
-      (eprintf "<<problem creating jaylib.janet shim>>")
+      (eprintf "<<problem creating freja-jaylib.janet shim>>")
       (os/exit 1))))
 
 (printf "\n[copying logo into place]...")
@@ -99,17 +100,17 @@
                "-o" (string out-dir "/main.html")
                "main.c"
                "janet/build/c/janet.c"
-               "jaylib/raylib/src/libraylib.a"
+               "freja-jaylib/raylib/src/libraylib.a"
                "-Ijanet/build"
-               "-Ijaylib/src"
-               "-Ijaylib/raylib/src"
-               "--preload-file" preload-dir
+               "-Ifreja-jaylib/raylib/src"
+               # "@/" means "this will be root dir": https://emscripten.org/docs/porting/files/packaging_files.html#modifying-file-locations-in-the-virtual-file-system
+               "--preload-file" (string preload-dir "@/")
                "--source-map-base" (string "http://localhost:" port "/")
                "--shell-file" "shell.html"
                # -O0 for dev, -Os for non-ASYNCIFY, -O3 for ASYNCIFY
-               "-O0"
+               #"-O0"
                #"-Os"
-               #"-O3" "-s" "ASYNCIFY"
+               "-O3" "-s" "ASYNCIFY"
                "-s" "ASSERTIONS=2"
                "-s" "ALLOW_MEMORY_GROWTH=1"
                "-s" "FORCE_FILESYSTEM=1"
