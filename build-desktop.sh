@@ -28,8 +28,8 @@ fi
 [ -e janet/build/c/janet.c ] || \
     (echo "janet/build/c/janet.c not found, please build" && exit 1)
 
-[ -e freja-jaylib/raylib/libraylib.a ] || \
-    (echo "freja-jaylib/raylib/libraylib.a not found, please build" && exit 1)
+[ -e freja-jaylib/raylib/src/libraylib.a ] || \
+    (echo "freja-jaylib/raylib/src/libraylib.a not found, please build" && exit 1)
 
 echo "[Compiling output]..."
 gcc \
@@ -38,7 +38,7 @@ gcc \
     -o cross/main \
     main.c \
     janet/build/c/janet.c \
-    freja-jaylib/raylib/libraylib.a \
+    freja-jaylib/raylib/src/libraylib.a \
     -Ijanet/build \
     -Ifreja-jaylib/raylib/src \
     -lm -lpthread -ldl

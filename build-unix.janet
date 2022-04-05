@@ -2,7 +2,7 @@
 
 (def port "8000")
 
-(def preload-dir "resources")
+(def preload-dir "cross")
 (def lib-dir (string preload-dir "/jpm_tree/lib"))
 
 ###########################################################################
@@ -59,7 +59,8 @@
         (os/exit 1)))
     (try
       (os/execute ["make"
-                   "CFLAGS=-gsource-map"
+                   # XXX: causing emcc to fail at last step?
+                   #"CFLAGS=-gsource-map"
                    "PLATFORM=PLATFORM_WEB" "-B" "-e"] :px)
       ([e]
         (eprintf "<<problem building libfreja-jaylib.a>>")
