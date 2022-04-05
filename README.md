@@ -32,6 +32,7 @@ The goal of this demo is to produce appropriate `.wasm`, `.js`, `.html`, and rel
     ```
     cd cross
     jpm -l deps
+    cd ..
     ```
 
 * For *nixen, with emsdk under `~/src/emsdk`:
