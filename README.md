@@ -28,6 +28,12 @@ The goal of this demo is to produce appropriate `.wasm`, `.js`, `.html`, and rel
     git clone --recursive https://github.com/sogaiu/jaylib-wasm-demo
     ```
 
+* Download dependencies for cross
+    ```
+    cd cross
+    jpm -l deps
+    ```
+
 * For *nixen, with emsdk under `~/src/emsdk`:
     ```
     source ~/src/emsdk/emsdk_env.sh
