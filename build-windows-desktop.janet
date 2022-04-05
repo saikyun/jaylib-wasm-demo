@@ -1,6 +1,7 @@
 (def build-dir "build")
 
-(def preload-dir "resources")
+(def preload-dir "cross")
+(def lib-dir (string preload-dir "\\jpm_tree\\lib"))
 
 ###########################################################################
 
@@ -44,96 +45,96 @@
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rshapes.o"
-    "jaylib/raylib/src/rshapes.c"]
+    "freja-jaylib/raylib/src/rshapes.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rtextures.o"
-    "jaylib/raylib/src/rtextures.c"]
+    "freja-jaylib/raylib/src/rtextures.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/raudio.o"
-    "jaylib/raylib/src/raudio.c"]
+    "freja-jaylib/raylib/src/raudio.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rglfw.o"
-    "jaylib/raylib/src/rglfw.c"]
+    "freja-jaylib/raylib/src/rglfw.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rcore.o"
-    "jaylib/raylib/src/rcore.c"]
+    "freja-jaylib/raylib/src/rcore.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rmodels.o"
-    "jaylib/raylib/src/rmodels.c"]
+    "freja-jaylib/raylib/src/rmodels.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/rtext.o"
-    "jaylib/raylib/src/rtext.c"]
+    "freja-jaylib/raylib/src/rtext.c"]
    ["cl.exe"
     "-D_POSIX_C_SOURCE=200809L"
     "-DPLATFORM_DESKTOP"
     "/c"
     "/nologo"
     "/MD"
-    "-Ijaylib/raylib/src"
-    "-Ijaylib/raylib/src/external/glfw/include"
+    "-Ifreja-jaylib/raylib/src"
+    "-Ifreja-jaylib/raylib/src/external/glfw/include"
     "-O2"
     "/LD"
     "/Fobuild/utils.o"
-    "jaylib/raylib/src/utils.c"]])
+    "freja-jaylib/raylib/src/utils.c"]])
 (each cmd commands
   (try
     (os/execute cmd :px)
@@ -160,14 +161,14 @@
     (eprintf "<<problem compiling: %p>>" e)
     (os/exit 1)))
 
-(printf "\n[preparing jaylib.janet shim]...")
+(printf "\n[preparing freja-jaylib.janet shim]...")
 (try
   (os/execute ["janet"
-               "make-jaylib-janet-shim.janet"
-               "jaylib/src"
-               (string preload-dir "/jaylib.janet")] :px)
+               "make-freja-jaylib-janet-shim.janet"
+               "freja-jaylib/src"
+               (string lib-dir "/freja-jaylib.janet")] :px)
   ([e]
-    (eprintf "<<problem creating jaylib.janet shim>>")
+    (eprintf "<<problem creating freja-jaylib.janet shim>>")
     (os/exit 1)))
 
 (printf "\n[compiling final product]...")
@@ -177,8 +178,8 @@
                "janet/build/c/janet.c"
                "-Ijanet/src/include"
                "-Ijanet/src/conf"
-               "-Ijaylib/raylib/src"
-               "-Ijaylib/src"
+               "-Ifreja-jaylib/raylib/src"
+               #"-Ifreja-jaylib/src"
                "/MD"
                #"/link" "/DEBUG"
                "build/raylib.lib"

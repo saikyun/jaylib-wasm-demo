@@ -1,15 +1,16 @@
 #include "janet.h"
 #include "raylib.h"
+#include "rlgl.h"
 
-#include "types.h"
-
-#include "core.h"
-#include "shapes.h"
-#include "audio.h"
-#include "gestures.h"
-#include "text.h"
-#include "image.h"
-#include "3d.h"
+#include "freja-jaylib/src/types.h"
+#include "freja-jaylib/src/core.h"
+#include "freja-jaylib/src/shapes.h"
+#include "freja-jaylib/src/audio.h"
+#include "freja-jaylib/src/gestures.h"
+#include "freja-jaylib/src/text.h"
+#include "freja-jaylib/src/image.h"
+#include "freja-jaylib/src/3d.h"
+#include "freja-jaylib/src/rlgl.h"
 
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
@@ -71,17 +72,21 @@ int main(int argc, char** argv) {
   janet_cfuns(core_env, NULL, text_cfuns);
   janet_cfuns(core_env, NULL, image_cfuns);
   janet_cfuns(core_env, NULL, threed_cfuns);
+  janet_cfuns(core_env, NULL, rlgl_cfuns);
 
   Janet ret;
 
   int status =
     janet_dostring(core_env,
-                   "(setdyn :syspath \"./resources\")\n"
-                   "(import game :prefix \"\")\n"
+                   "(setdyn :syspath \"./jpm_tree/lib\")\n"
+                   "(setdyn :freja/web-build true)"
+                   "(import ./cross :prefix \"\")\n"
+                   "(xprint stdout \"main123\")"
                    "(common-startup)\n"
                    // want this in c anyway, so "returning" this
                    "main-fiber",
-                   "game.janet", &ret);
+                   "game-main.janet",
+                   &ret);
 
   if (status == JANET_SIGNAL_ERROR) {
     printf("error loading game\n");

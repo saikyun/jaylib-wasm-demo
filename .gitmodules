@@ -1,6 +1,9 @@
-[submodule "jaylib"]
-	path = jaylib
-	url = https://github.com/sogaiu/jaylib
+[submodule "freja-jaylib"]
+	path = freja-jaylib
+	url = https://github.com/saikyun/freja-jaylib
+[submodule "cross"]
+	path = cross
+	url = https://github.com/saikyun/cross
 [submodule "janet"]
 	path = janet
 	url = https://github.com/janet-lang/janet
