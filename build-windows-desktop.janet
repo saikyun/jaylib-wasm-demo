@@ -188,6 +188,7 @@
                "gdi32.lib"
                "winmm.lib"
                "shell32.lib"
+               (string "/Fe:" preload-dir "\\main.exe")
                ]
               :px)
   ([e]
